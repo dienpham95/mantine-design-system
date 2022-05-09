@@ -1,25 +1,79 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import _ from 'lodash';
+
+import * as SystemComponents from './components/systems';
+import {
+  ActionIcon,
+  AppShell,
+  Group,
+  Header,
+  Navbar,
+  useMantineColorScheme,
+} from '@mantine/core';
+import { MainLinks } from './components/others/MainLink';
+import { User } from './components/others/User';
+import { BsSun, BsMoonStars } from 'react-icons/bs';
+import { Logo } from './components/others/Logo';
+
+const routes = _.map(SystemComponents, (SystemComponent) => ({
+  Component: SystemComponent,
+  path: _.kebabCase(SystemComponent.name),
+}));
+
+const AppLayout = () => {
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+
+  return (
+    <>
+      <AppShell
+        padding="md"
+        navbar={
+          <Navbar width={{ base: 300 }} p="xs">
+            <Navbar.Section grow mt="xs">
+              <MainLinks />
+            </Navbar.Section>
+            <Navbar.Section>
+              <User />
+            </Navbar.Section>
+          </Navbar>
+        }
+        header={
+          <Header height={60} p="xs">
+            <Group sx={{ height: '100%' }} px={20} position="apart">
+              <Logo colorScheme={colorScheme} />
+              <ActionIcon
+                variant="default"
+                onClick={() => toggleColorScheme()}
+                size={30}
+              >
+                {colorScheme === 'dark' ? (
+                  <BsSun size={16} />
+                ) : (
+                  <BsMoonStars size={16} />
+                )}
+              </ActionIcon>
+            </Group>
+          </Header>
+        }
+      >
+        <div />
+      </AppShell>
+      <Outlet />
+    </>
+  );
+};
 
 function App() {
   return (
-    <div className='App'>
-      <header className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className='App-link'
-          href='https://reactjs.org'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          Learn React And Git flow 2
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route element={<AppLayout />}>
+        {routes.map(({ Component, path }) => (
+          <Route key={path} path={path} element={<Component />} />
+        ))}
+        <Route path="*" element={<Navigate to={routes[0].path} replace />} />
+      </Route>
+    </Routes>
   );
 }
 
