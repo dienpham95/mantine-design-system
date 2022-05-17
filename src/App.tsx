@@ -21,50 +21,44 @@ const routes = _.map(SystemComponents, (SystemComponent) => ({
   path: _.kebabCase(SystemComponent.name),
 }));
 
-const AppLayout = () => {
+const AppLayout: React.FC = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const dark = colorScheme === 'dark';
 
   return (
-    <>
-      <AppShell
-        padding="md"
-        navbar={
-          <Navbar width={{ base: 300 }} p="xs">
-            <Navbar.Section grow mt="xs">
-              <MainLinks />
-            </Navbar.Section>
-            <Navbar.Section>
-              <User />
-            </Navbar.Section>
-          </Navbar>
-        }
-        header={
-          <Header height={60} p="xs">
-            <Group sx={{ height: '100%' }} px={20} position="apart">
-              <Logo colorScheme={colorScheme} />
-              <ActionIcon
-                variant="default"
-                onClick={() => toggleColorScheme()}
-                size={30}
-              >
-                {colorScheme === 'dark' ? (
-                  <BsSun size={16} />
-                ) : (
-                  <BsMoonStars size={16} />
-                )}
-              </ActionIcon>
-            </Group>
-          </Header>
-        }
-      >
-        <div />
-      </AppShell>
+    <AppShell
+      padding="md"
+      navbar={
+        <Navbar width={{ base: 300 }} p="xs">
+          <Navbar.Section grow mt="xs">
+            <MainLinks routes={routes} />
+          </Navbar.Section>
+          <Navbar.Section>
+            <User />
+          </Navbar.Section>
+        </Navbar>
+      }
+      header={
+        <Header height={60} p="xs">
+          <Group sx={{ height: '100%' }} px={20} position="apart">
+            <Logo colorScheme={colorScheme} />
+            <ActionIcon
+              variant="default"
+              onClick={() => toggleColorScheme()}
+              size={30}
+            >
+              {dark ? <BsSun size={16} /> : <BsMoonStars size={16} />}
+            </ActionIcon>
+          </Group>
+        </Header>
+      }
+    >
       <Outlet />
-    </>
+    </AppShell>
   );
 };
 
-function App() {
+const App: React.FC = () => {
   return (
     <Routes>
       <Route element={<AppLayout />}>
@@ -75,6 +69,6 @@ function App() {
       </Route>
     </Routes>
   );
-}
+};
 
 export default App;

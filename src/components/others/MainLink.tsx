@@ -1,16 +1,15 @@
 import React from 'react';
-import { IoGitPullRequest, IoAlertCircle } from 'react-icons/io5';
-import { TiMessages } from 'react-icons/ti';
-import { FaDatabase } from 'react-icons/fa';
-import { ThemeIcon, UnstyledButton, Group, Text } from '@mantine/core';
+import { UnstyledButton, Group, Text } from '@mantine/core';
+import { useNavigate } from 'react-router-dom';
 
 interface MainLinkProps {
-  icon: React.ReactNode;
-  color: string;
-  label: string;
+  Component: React.FC;
+  path: string;
 }
 
-function MainLink({ icon, color, label }: MainLinkProps) {
+function MainLink({ Component, path }: MainLinkProps) {
+  const navigate = useNavigate();
+
   return (
     <UnstyledButton
       sx={(theme) => ({
@@ -28,30 +27,25 @@ function MainLink({ icon, color, label }: MainLinkProps) {
               : theme.colors.gray[0],
         },
       })}
+      onClick={() => navigate(path)}
     >
       <Group>
-        <ThemeIcon color={color} variant="light">
-          {icon}
-        </ThemeIcon>
-
-        <Text size="sm">{label}</Text>
+        <Text size="sm">{Component.name}</Text>
       </Group>
     </UnstyledButton>
   );
 }
 
-const data = [
-  {
-    icon: <IoGitPullRequest size={16} />,
-    color: 'blue',
-    label: 'Pull Requests',
-  },
-  { icon: <IoAlertCircle size={16} />, color: 'teal', label: 'Open Issues' },
-  { icon: <TiMessages size={16} />, color: 'violet', label: 'Discussions' },
-  { icon: <FaDatabase size={16} />, color: 'grape', label: 'Databases' },
-];
-
-export function MainLinks() {
-  const links = data.map((link) => <MainLink {...link} key={link.label} />);
-  return <div>{links}</div>;
+interface MainLinksProps {
+  routes: MainLinkProps[];
 }
+
+export const MainLinks: React.FC<MainLinksProps> = ({ routes }) => {
+  return (
+    <div>
+      {routes.map((route) => (
+        <MainLink key={route.Component.name} {...route} />
+      ))}
+    </div>
+  );
+};
