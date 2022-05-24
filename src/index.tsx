@@ -8,6 +8,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
+import { mantineTheme } from './theme';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -34,6 +35,7 @@ const RootComponent = () => {
           <MantineProvider
             theme={{
               colorScheme,
+              ...mantineTheme,
             }}
             withGlobalStyles
             withNormalizeCSS
