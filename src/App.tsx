@@ -6,10 +6,13 @@ import * as SystemComponents from './components/systems';
 import {
   ActionIcon,
   AppShell,
+  Container,
   Group,
   Header,
   Navbar,
+  ScrollArea,
   useMantineColorScheme,
+  useMantineTheme,
 } from '@mantine/core';
 import { MainLinks } from './components/others/MainLink';
 import { User } from './components/others/User';
@@ -24,12 +27,13 @@ const routes = _.map(SystemComponents, (SystemComponent) => ({
 const AppLayout: React.FC = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const dark = colorScheme === 'dark';
+  const theme = useMantineTheme();
 
   return (
     <AppShell
       padding="md"
       navbar={
-        <Navbar width={{ base: 300 }} p="xs">
+        <Navbar width={{ base: 250 }} p="xs">
           <Navbar.Section grow mt="xs">
             <MainLinks routes={routes} />
           </Navbar.Section>
@@ -52,8 +56,13 @@ const AppLayout: React.FC = () => {
           </Group>
         </Header>
       }
+      styles={{ main: { padding: 0 } }}
     >
-      <Outlet />
+      <ScrollArea offsetScrollbars sx={{ height: 'calc(100vh - 60px)' }}>
+        <Container sx={{ backgroundColor: theme.white }}>
+          <Outlet />
+        </Container>
+      </ScrollArea>
     </AppShell>
   );
 };

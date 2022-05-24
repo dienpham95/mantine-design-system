@@ -1,5 +1,4 @@
 import React from 'react';
-import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 import {
   UnstyledButton,
   Group,
@@ -53,12 +52,6 @@ export function User() {
               ahorsefighter@gmail.com
             </Text>
           </Box>
-
-          {theme.dir === 'ltr' ? (
-            <FaChevronRight size={18} />
-          ) : (
-            <FaChevronLeft size={18} />
-          )}
         </Group>
       </UnstyledButton>
     </Box>
