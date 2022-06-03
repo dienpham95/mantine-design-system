@@ -4,19 +4,16 @@ import _ from 'lodash';
 
 import * as SystemComponents from './components/systems';
 import {
-  ActionIcon,
   AppShell,
   Container,
   Group,
   Header,
   Navbar,
   ScrollArea,
-  useMantineColorScheme,
   useMantineTheme,
 } from '@mantine/core';
 import { MainLinks } from './components/others/MainLink';
 import { User } from './components/others/User';
-import { BsSun, BsMoonStars } from 'react-icons/bs';
 import { Logo } from './components/others/Logo';
 
 const routes = _.map(SystemComponents, (SystemComponent) => ({
@@ -25,8 +22,6 @@ const routes = _.map(SystemComponents, (SystemComponent) => ({
 }));
 
 const AppLayout: React.FC = () => {
-  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
-  const dark = colorScheme === 'dark';
   const theme = useMantineTheme();
 
   return (
@@ -45,14 +40,7 @@ const AppLayout: React.FC = () => {
       header={
         <Header height={60} p="xs">
           <Group sx={{ height: '100%' }} px={20} position="apart">
-            <Logo colorScheme={colorScheme} />
-            <ActionIcon
-              variant="default"
-              onClick={() => toggleColorScheme()}
-              size={30}
-            >
-              {dark ? <BsSun size={16} /> : <BsMoonStars size={16} />}
-            </ActionIcon>
+            <Logo colorScheme={theme.colorScheme} />
           </Group>
         </Header>
       }

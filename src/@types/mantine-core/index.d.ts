@@ -1,6 +1,13 @@
-import { Tuple } from '@mantine/core';
+import { Tuple, DefaultMantineColor } from '@mantine/core';
 
-type CustomColors = 'primary' | 'secondary' | 'success' | 'warning' | 'error';
+type CustomColors =
+  | DefaultMantineColor
+  | 'primary'
+  | 'secondary'
+  | 'success'
+  | 'warning'
+  | 'error'
+  | 'info';
 
 declare module '@mantine/core' {
   export interface MantineThemeColorsOverride {
